@@ -27,12 +27,7 @@ def main():
         else:
             stripped_file = strip_file_extension(filename)
             item_and_folder_name = get_item_and_folder_name(stripped_file)
-            # for index, word in enumerate(splits):
-            #     if is_digit(word):
-            #         word = ''
 
-        # splits2 = splits[0].split()
-        # folder_name = ' '.join(splits2[:-1])
         fileset.add(item_and_folder_name['folder_name'])
 
     create_directories(fileset)
