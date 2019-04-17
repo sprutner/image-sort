@@ -162,11 +162,11 @@ def copy_files(directories, parsed_files):
         for filename in parsed_files:
             if re.match("{}_.*".format(directory), filename):
                 shutil.copy2(filename, os.path.join(cwd, 'output', directory))
-            print("[COPIED] {} [TO] {}".format(
-                filename,
-                os.path.join(cwd, 'output', directory)
+                print("[COPIED] {} [TO] {}".format(
+                    filename,
+                    os.path.join(cwd, 'output', directory)
+                    )
                 )
-            )
 
 if __name__ == "__main__":
     main()
