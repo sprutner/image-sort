@@ -68,18 +68,24 @@ def parse_files(file_list, image_formats):
 
 def get_folder_name(filename):
     """
-    Splits a formatted filename by underscore, and then assumes everything but
-    the last element composes the folder name. Uses slicing to return this as
-    the folder name.
+    Splits a formatted filename by underscore, checks to see if more than one
+    element exists, and then assumes everything but the last element composes
+    the folder name. If there are no underscores, we can assume this will be
+    the folder name. Uses slicing to return this as the folder name.
 
     :param filename: string, formatted filename with underscores
     :return: string, just the folder name.
     """
     split_string = filename.split('_')
-    folder_name_list = split_string[:-1]
-    folder_name = ' '.join(folder_name_list)
 
-    return folder_name
+    if len(split_string) == 1:
+        return next(iter(split_string), None)
+
+    else:
+        folder_name_list = split_string[:-1]
+        folder_name = ' '.join(folder_name_list)
+
+        return folder_name
 
 
 def supported_image_file(filename, image_formats):
@@ -122,7 +128,6 @@ def format_file_name(file_name):
 
     return file_name
 
-
 def create_directories(fileset):
     """
     Creates directories based on a set of directory names if they don't already
@@ -153,6 +158,7 @@ def copy_files(directories, parsed_files):
     parsed file names If the beginning of the filenames match up with the
     directory name then, they are copied into the directory
 
+    Checks if there is an '_' in the filename. If not, it uses a different regex.
     :param directories: a set of directories
     :param parsed_files: a list of parsed files
     :return: None
@@ -160,13 +166,22 @@ def copy_files(directories, parsed_files):
 
     for directory in directories:
         for filename in parsed_files:
-            if re.match("{}_.*".format(directory), filename):
-                shutil.copy2(filename, os.path.join(cwd, 'output', directory))
-                print("[COPIED] {} [TO] {}".format(
-                    filename,
-                    os.path.join(cwd, 'output', directory)
-                    )
-                )
+            if '_' in filename:
+                if re.match("{}_.*".format(directory), filename):
+                    shutil.copy2(filename, os.path.join(cwd, 'output', directory))
+                    print_output(directory, filename)
+            else:
+                if re.match("{}".format(directory), filename):
+                    shutil.copy2(filename, os.path.join(cwd, 'output', directory))
+                    print_output(directory, filename)
+
+
+def print_output(directory, filename):
+    print("[COPIED] {} [TO] {}".format(
+        filename,
+        os.path.join(cwd, 'output', directory)
+        )
+    )
 
 if __name__ == "__main__":
     main()
