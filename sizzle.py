@@ -3,6 +3,7 @@
 import os
 import re
 import shutil
+import tempfile
 
 # Constants
 supported_image_formats = [
@@ -15,8 +16,9 @@ supported_image_formats = [
 
 # Initialization
 cwd = os.getcwd()
-files = os.listdir(os.getcwd())
+files = os.listdir(cwd)
 fileset = set({})
+temp_directory = tempfile.mkdtemp()
 
 
 def main():
@@ -30,8 +32,9 @@ def main():
     ./output and then finally copies the files into the directories by once
     again iterating over the parsed files list.
 
-    Usage: Run sizzle.py in desired directroy.
+    Usage: Run sizzle.py in desired directory.
     """
+    create_output_directory()
     parsed_files = parse_files(files, supported_image_formats)
 
     for filename in parsed_files:
@@ -40,6 +43,12 @@ def main():
 
     create_directories(fileset)
     copy_files(fileset, parsed_files)
+
+def set_testing_globals(new_cwd):
+    global cwd
+    global files
+    cwd = new_cwd
+    files = os.listdir(new_cwd)
 
 
 def parse_files(file_list, image_formats):
@@ -61,10 +70,15 @@ def parse_files(file_list, image_formats):
             continue
         else:
             list_object.strip()
+            stripped_file = strip_file_extension(list_object)
+            formatted_file_name = format_file_name(list_object)
             parsed_file_list.append(format_file_name(list_object))
 
     return parsed_file_list
 
+
+def create_temp_directory():
+    return tempfile.mkdtemp()
 
 def get_folder_name(filename):
     """
@@ -83,7 +97,7 @@ def get_folder_name(filename):
 
     else:
         folder_name_list = split_string[:-1]
-        folder_name = ' '.join(folder_name_list)
+        folder_name = '_'.join(folder_name_list)
 
         return folder_name
 
@@ -122,11 +136,39 @@ def format_file_name(file_name):
     :return: string, formatted name of a file
     """
 
+    new_name = ''
     for letter in file_name:
         if letter == '-' or letter == ' ':
             letter = '_'
+        new_name += letter
 
-    return file_name
+    shutil.copy2(os.path.join(cwd, file_name), os.path.join(temp_directory, new_name))
+
+    return new_name
+
+def format_dir_name(file_name):
+    """
+    Converts hypens and spaces to underscores
+
+    :param file_name: string, name of a file
+    :return: string, formatted name of a file
+    """
+
+    new_name = ''
+    for letter in file_name:
+        if letter == '-' or letter == ' ':
+            letter = '_'
+        new_name += letter
+
+    return new_name
+
+def create_output_directory():
+    try:
+        os.mkdir(os.path.join(cwd, 'output'))
+        print("Created output directory")
+    except OSError:
+        print("Output directory already exists")
+
 
 def create_directories(fileset):
     """
@@ -136,12 +178,6 @@ def create_directories(fileset):
     :param fileset: Set of strings
     :return: None
     """
-
-    try:
-        os.mkdir(os.path.join(cwd, 'output'))
-        print("Created output directory")
-    except OSError:
-        print("Output directory already exists")
 
     for file in fileset:
         try:
@@ -168,15 +204,15 @@ def copy_files(directories, parsed_files):
         for filename in parsed_files:
             if '_' in filename:
                 if re.match("{}_.*".format(directory), filename):
-                    shutil.copy2(filename, os.path.join(cwd, 'output', directory))
-                    print_output(directory, filename)
+                    shutil.copy2(os.path.join(temp_directory, filename), os.path.join(cwd, 'output', directory))
+                    print_output(filename, os.path.join(cwd, 'output', directory))
             else:
                 if re.match("{}".format(directory), filename):
-                    shutil.copy2(filename, os.path.join(cwd, 'output', directory))
-                    print_output(directory, filename)
+                    shutil.copy2(os.path.join(temp_directory, filename), os.path.join(cwd, 'output', directory))
+                    print_output(filename, os.path.join(cwd, 'output', directory))
 
 
-def print_output(directory, filename):
+def print_output(filename, directory):
     print("[COPIED] {} [TO] {}".format(
         filename,
         os.path.join(cwd, 'output', directory)
