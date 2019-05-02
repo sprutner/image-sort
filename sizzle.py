@@ -143,6 +143,7 @@ def format_file_name(file_name):
         new_name += letter
 
     shutil.copy2(os.path.join(cwd, file_name), os.path.join(temp_directory, new_name))
+    print_output(file_name, os.path.join(cwd, temp_directory, new_name))
 
     return new_name
 
