@@ -13,7 +13,7 @@ test_files = [
     'haunted cabinet 2.jpg',
     'spooky.jpg',
     '23-11-332.jpg',
-    'test-table-1'
+    'test-table-1.jpg'
 ]
 expected_dirs = [
     '33',
@@ -29,7 +29,7 @@ expected_file_paths = [
     '23_11/23_11_332.jpg',
     'haunted_cabinet/haunted_cabinet_2.jpg',
     'spooky/spooky.jpg',
-    'test_table/test_table_1'
+    'test_table/test_table_1.jpg'
 ]
 
 class TestSizzle(unittest.TestCase):
