@@ -11,8 +11,7 @@ supported_image_formats = [
     'jpeg',
     'tif',
     'tiff',
-    'gif',
-    'png'
+    'gif'
 ]
 
 # Initialization
