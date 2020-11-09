@@ -18,11 +18,12 @@ Copy paste the following into your terminal
 
 ```bash
 git clone https://github.com/sprutner/sizzle-dir
-echo "alias sizzle='python $(pwd)/sizzle-dir/sizzle.py'" >> ~/.bash_profile
-source ~/.bash_profile
+bash sizzle-dir/install
 ```
 
-Clones this repo and adds an alias into your bash_profile
+This clones this repo and adds an alias into your bash_profile or zprofile depending on your shell.
+
+Open a new terminal window and the sizzle should now be installed.
 
 ## Usage
 1) Navigate to your desired directory from the command-line
