@@ -1,0 +1,20 @@
+#!/bin/bash
+  
+if [ "$SHELL" == /bin/zsh ]
+then
+  SHELL_TYPE="zsh"
+  PROFILE_FILE=~/.zprofile
+else
+  SHELL_TYPE="bash"
+  PROFILE_FILE=~/.bash_profile
+fi
+
+echo "Setting up The Sizzle for shell type: $SHELL_TYPE"
+
+if grep -q "sizzle-dir/sizzle.py" $PROFILE_FILE
+then
+  echo "Alias for sizzle already found in $PROFILE_FILE deleting it"
+  sed -i '' '/sizzle/d' $PROFILE_FILE
+fi
+
+echo "alias sizzle='python $HOME/sizzle-dir/sizzle.py'" >> $PROFILE_FILE
