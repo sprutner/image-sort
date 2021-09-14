@@ -1,4 +1,4 @@
-# Sizzle your directories
+# image-sort your directories
 
 If you have a mess of image files for multiple listings in
 one directory and need to create directories and then
@@ -17,14 +17,14 @@ in filenames is currently not supported.
 Copy paste the following into your terminal
 
 ```bash
-git clone https://github.com/sprutner/sizzle-dir
-bash sizzle-dir/install
+git clone https://github.com/sprutner/image-sort
+bash image-sort/install
 ```
 
 This clones this repo and adds an alias into your bash_profile or zprofile depending on your shell.
 
-Open a new terminal window and the sizzle should now be installed.
+Open a new terminal window and image-sort should now be installed.
 
 ## Usage
 1) Navigate to your desired directory from the command-line
-1) Run `sizzle` from the command line
+1) Run `image-sort` from the command line

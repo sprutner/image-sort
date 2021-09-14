@@ -1,5 +1,5 @@
 #!/bin/bash
-  
+
 if [ "$SHELL" == /bin/zsh ]
 then
   SHELL_TYPE="zsh"
@@ -9,12 +9,12 @@ else
   PROFILE_FILE=~/.bash_profile
 fi
 
-echo "Setting up The Sizzle for shell type: $SHELL_TYPE"
+echo "Setting up image-sort for shell type: $SHELL_TYPE"
 
-if grep -q "sizzle-dir/sizzle.py" $PROFILE_FILE
+if grep -q "image-sort/sizzle.py" $PROFILE_FILE
 then
-  echo "Alias for sizzle already found in $PROFILE_FILE deleting it"
-  sed -i '' '/sizzle/d' $PROFILE_FILE
+  echo "Alias for image-sort already found in $PROFILE_FILE deleting it"
+  sed -i '' '/image-sort/d' $PROFILE_FILE
 fi
 
-echo "alias sizzle='python $HOME/sizzle-dir/sizzle.py'" >> $PROFILE_FILE
+echo "alias image-sort='python $HOME/image-sort/sizzle.py'" >> $PROFILE_FILE
