@@ -13,7 +13,7 @@ test_files = [
     'haunted cabinet 2.jpg',
     'spooky.jpg',
     '23-11-332.jpg',
-    'test-table-1'
+    'test-table-1.jpg'
 ]
 expected_dirs = [
     '33',
